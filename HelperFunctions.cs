@@ -12,6 +12,7 @@ public class HelperFunctions : MonoBehaviour
 
     private static PointerEventData eventDataCurrentPos;
     private static List<RaycastResult> results;
+
     /// <summary>
     /// Check if the mouse is over a UI element
     /// </summary>
@@ -296,6 +297,7 @@ public class HelperFunctions : MonoBehaviour
     #endregion
 
     #region UI Related
+
     public static Color HexToColor(string hex)
     {
         if (hex.Length < 6)
@@ -321,75 +323,12 @@ public class HelperFunctions : MonoBehaviour
 
         return new Color32(r, g, b, 255);
     }
-    
-    public static IEnumerator FadeCanvas(CanvasGroup canvasGroup, float fadeDuration ,bool fadeIn)
-    {
-        float targetAlpha = fadeIn ? 1f : 0f;
-        float startAlpha = canvasGroup.alpha;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < fadeDuration)
-        {
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / fadeDuration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        canvasGroup.alpha = targetAlpha;
-    }
-
-    /// <summary>
-    /// Fade a UI element from its current alpha value to another over a period of time
-    /// </summary>
-    /// <param name="uiElement"></param>
-    /// <param name="targetAlpha"></param>
-    /// <param name="duration"></param>
-    public static IEnumerator FadeUIElement(Graphic uiElement, float targetAlpha, float duration)
-    {
-        float startAlpha = uiElement.color.a;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            float newAlpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / duration);
-            uiElement.color = new Color(uiElement.color.r, uiElement.color.g, uiElement.color.b, newAlpha);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        uiElement.color = new Color(uiElement.color.r, uiElement.color.g, uiElement.color.b, targetAlpha);
-    }
-    
-    /// <summary>
-    /// Shakes the given camera
-    /// </summary>
-    /// <param name="camera"></param>
-    /// <param name="duration"></param>
-    /// <param name="magnitude"></param>
-    /// <param name="returnToOrigin"></param>
-    /// <returns></returns>
-    public static IEnumerator ScreenShake(Camera camera, float duration, float magnitude, bool returnToOrigin)
-    {
-        Vector3 originalPosition = camera.transform.position;
-
-        while (duration > 0)
-        {
-            float xShake = Random.Range(-0.25f, 0.25f) * magnitude;
-            float yShake = Random.Range(-0.25f, 0.25f) * magnitude;
-            
-            camera.transform.position += new Vector3(xShake, yShake, 0f);
-            Debug.Log("Shaking: " + Time.deltaTime);
-            duration -= Time.deltaTime;
-            yield return null;
-        }
-        
-        if (returnToOrigin) camera.transform.position = originalPosition;
-    }
 
     #endregion
 }
 
 #region Singletons
+
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance;
@@ -427,4 +366,5 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         //DontDestroyOnLoad(gameObject);
     }
 }
+
 #endregion
